@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  mysql:
+    restart: always
+    image: mariadb:10.3
+    depends_on:
+      - certbot-mysql
+    volumes:
+      - mysql_data:/var/lib/mysql
+      -  certbot_mysql:/etc/mysql/certificatees
+  certbot-mysql:
+    restart: no
+    image: certbot/dns-cloudflare
+    volumes:
+      - certbot_mysql:/etc/letsencrypt
+      - ./.cloudflare.ini:/root/cloudflare.ini
+    command: >-
+      certonly --dns-cloudflare
+      --dns-cloudflare-credentials /root/cloudflare.ini
+      --dns-cloudflare-propagation-seconds 15
+      --email ssl@kontextwork.de
+      --agree-tos --no-eff-email
+      -d pg.kontextwork.in
+      
+volumes:
+  certbot_mysql:
+  mysql_data:
