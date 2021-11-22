@@ -20,7 +20,7 @@ fi
 if [ -z "$PASSWORD" ]
 then
       echo "Generating password (since not set as 3rd parameter)"
-      PASSWORD=`tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1`
+      PASSWORD=`tr -cd '[:alnum:]' < /dev/urandom | fold -w40 | head -n1`
 fi
 
 docker-compose exec -u postgres postgres psql -c "CREATE USER ${USER} WITH LOGIN PASSWORD '${PASSWORD}'"

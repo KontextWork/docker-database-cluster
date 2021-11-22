@@ -16,3 +16,7 @@ chmod 600 .cloudflare.ini
 ```
 
 Set your `dns_cloudflare_api_token` to the DNS api token
+
+## Databases
+
+- For `postgres` see `README.pg.md` for how to manage it

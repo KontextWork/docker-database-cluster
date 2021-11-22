@@ -4,3 +4,6 @@ services:
   pg:
     restart: "no"
     image: jbergknoff/postgresql-client
+    # add a link so we can use our SSL domain
+    links:
+      - "postgres:pg.kontextwork.in"
