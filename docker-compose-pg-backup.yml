@@ -10,6 +10,8 @@ services:
       - db
     depends_on:
       - db
+    networks:
+      - dbs
     environment:
       POSTGRES_HOST: ${POSTGRES_PASSWORD}
       POSTGRES_USER: postgres
