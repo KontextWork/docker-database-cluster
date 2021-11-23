@@ -5,6 +5,8 @@ services:
     container_name: my
     restart: 'always'
     image: bitnami/mariadb:10.3
+    ports:
+      - 3306:3306
     environment:
       MARIADB_ROOT_PASSWORD:
     depends_on:
