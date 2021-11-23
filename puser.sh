@@ -23,9 +23,11 @@ then
       PASSWORD=`tr -cd '[:alnum:]' < /dev/urandom | fold -w40 | head -n1`
 fi
 
-docker-compose exec -u postgres postgres psql -c "CREATE USER ${USER} WITH LOGIN PASSWORD '${PASSWORD}'"
-docker-compose exec -u postgres postgres psql -c "CREATE DATABASE ${DATABASE}"
-docker-compose exec -u postgres postgres psql -c "ALTER DATABASE ${DATABASE} owner to ${USER}"
+source .env
+docker run --rm --link postgres:$PG_DOMAIN -e PGPASSWORD=${POSTGRES_PASSWORD} -it --network docker-database-cluster_pg bitnami/postgresql:latest psql -h $PG_DOMAIN -U postgres -c "CREATE USER ${USER} WITH LOGIN PASSWORD '${PASSWORD}'"
+docker run --rm --link postgres:$PG_DOMAIN -e PGPASSWORD=${POSTGRES_PASSWORD} -it --network docker-database-cluster_pg bitnami/postgresql:latest psql -h $PG_DOMAIN -U postgres -c "CREATE DATABASE ${DATABASE}"
+docker run --rm --link postgres:$PG_DOMAIN -e PGPASSWORD=${POSTGRES_PASSWORD} -it --network docker-database-cluster_pg bitnami/postgresql:latest psql -h $PG_DOMAIN -U postgres -c "ALTER DATABASE ${DATABASE} owner to ${USER}"
+
 echo "- Created user $USER"
 echo "- Created database $DATABASE"
 echo "- Your Password is: $PASSWORD"

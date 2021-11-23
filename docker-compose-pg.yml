@@ -1,27 +1,35 @@
-version: "3"
+version: '3'
 
 services:
   postgres:
-    restart: "always"
-    image: postgres:11-bullseye
+    restart: 'always'
+    #image: postgres:11-bullseye
+    image: bitnami/postgresql:11-debian-10
+    container_name: pg
+    networks:
+      - pg
     environment:
       POSTGRES_PASSWORD:
+      POSTGRESQL_LOG_CONNECTIONS: 1
+      POSTGRESQL_LOG_HOSTNAME: 1
     ports:
       - 5432:5432
     depends_on:
       - certbot-pg
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - ./data/pg:/var/lib/postgresql/data
+      - ./pg/pg_hba.conf:/bitnami/postgresql/conf/pg_hba.conf
       - ./pg/pg.d/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
-      #- ./pg.d/hba.sh:/docker-entrypoint-initdb.d/hba.sh
-      - certbot_pg:/etc/postgresql/certificates
+      - ./data/pg_certificates:/etc/postgresql/certificates
   certbot-pg:
-    restart: "no"
+    restart: 'no'
     image: certbot/dns-cloudflare
+    environment:
+      PG_DOMAIN:
     volumes:
-      - certbot_pg:/etc/letsencrypt
-      - ./.cloudflare.ini:/root/cloudflare.ini
-      - ./pg/certbot/chown_pg.sh/:/usr/local/bin/pg_chown.sh
+      - ./data/certbot_pg:/etc/letsencrypt
+      - ./data/pg_certificates:/pg_certificates
+      - ./pg/certbot/deploy_pg.sh:/usr/local/bin/deploy_pg.sh
     command: >-
       certonly --dns-cloudflare
       --non-interactive
@@ -30,8 +38,15 @@ services:
       --dns-cloudflare-propagation-seconds 15
       --email ssl@kontextwork.de
       --agree-tos --no-eff-email
-      -d pg.kontextwork.in 
-      --post-hook /usr/local/bin/pg_chown.sh
+      -d ${PG_DOMAIN}
+      --deploy-hook /usr/local/bin/deploy_pg.sh
+    configs:
+      - source: cloudflare
+        target: /root/cloudflare.ini
+        mode: 0440
 volumes:
   certbot_pg:
   pg_data:
+
+networks:
+  pg:

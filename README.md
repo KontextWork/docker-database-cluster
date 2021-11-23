@@ -2,13 +2,14 @@
 
 Our postgres and mysql cluster database
 
-## Usage
+## Usage / Setup
 
 ```bash
 cp env.example .env
 ```
 
-change POSTGRES_PASSWORD to something proper
+- change `POSTGRES_PASSWORD` to something proper
+- change `PG_DOMAIN` to your liking
 
 ```bash
 cp cloudflare.ini .cloudflare.ini

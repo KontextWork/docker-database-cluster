@@ -1,0 +1,3 @@
+configs:
+  cloudflare:
+    file: ./.cloudflare.ini
