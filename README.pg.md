@@ -30,3 +30,9 @@ apt update
 apt install -y postgresql
 psql -h $PG_DOMAIN -U postgres
 ```
+
+Verify that non ssl-mode is not working
+
+```bash
+psql -h $PG_DOMAIN -U postgres -e PGSSLMODE=disable
+```

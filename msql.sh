@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 source .env
 NETWORK=docker-database-cluster_dbs

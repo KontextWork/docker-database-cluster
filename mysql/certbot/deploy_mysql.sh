@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # chown certs so pg can access them
 cp -Lr /etc/letsencrypt/live/${MYSQL_DOMAIN}/cert.pem /mysql_certificates/server.crt
 cp -Lr /etc/letsencrypt/live/${MYSQL_DOMAIN}/privkey.pem /mysql_certificates/server.key

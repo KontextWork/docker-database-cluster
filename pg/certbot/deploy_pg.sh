@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # chown certs so pg can access them
 cp -Lr /etc/letsencrypt/live/${PG_DOMAIN}/cert.pem /pg_certificates/server.crt
 cp -Lr /etc/letsencrypt/live/${PG_DOMAIN}/privkey.pem /pg_certificates/server.key

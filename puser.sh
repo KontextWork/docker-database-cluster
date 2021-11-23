@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+
 USER=$1
 DATABASE=$2
 PASSWORD=$3
