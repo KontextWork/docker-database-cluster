@@ -30,6 +30,7 @@ services:
       - ./data/certbot_pg:/etc/letsencrypt
       - ./data/pg_certificates:/pg_certificates
       - ./pg/certbot/deploy_pg.sh:/usr/local/bin/deploy_pg.sh
+      - ./.cloudflare.ini:/root/cloudflare.ini
     command: >-
       certonly --dns-cloudflare
       --non-interactive
@@ -40,10 +41,6 @@ services:
       --agree-tos --no-eff-email
       -d ${PG_DOMAIN}
       --deploy-hook /usr/local/bin/deploy_pg.sh
-    configs:
-      - source: cloudflare
-        target: /root/cloudflare.ini
-        mode: 0440
 volumes:
   certbot_pg:
   pg_data:

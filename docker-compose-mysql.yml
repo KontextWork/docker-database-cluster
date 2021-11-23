@@ -24,6 +24,7 @@ services:
       - ./data/certbot_mysql:/etc/letsencrypt
       - ./data/mysql_certificates:/mysql_certificates
       - ./mysql/certbot/deploy_mysql.sh:/usr/local/bin/deploy_mysql.sh
+      - ./.cloudflare.ini:/root/cloudflare.ini
     command: >-
       certonly --dns-cloudflare
       --non-interactive
@@ -34,10 +35,6 @@ services:
       --agree-tos --no-eff-email
       -d ${MYSQL_DOMAIN}
       --deploy-hook /usr/local/bin/deploy_mysql.sh
-    configs:
-      - source: cloudflare
-        target: /root/cloudflare.ini
-        mode: 0440
 volumes:
   certbot_mysql:
   mysql_data:
