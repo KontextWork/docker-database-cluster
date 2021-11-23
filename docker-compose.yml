@@ -1,3 +1,9 @@
 configs:
   cloudflare:
     file: ./.cloudflare.ini
+
+networks:
+  dbs:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: ${MTU:-1500}

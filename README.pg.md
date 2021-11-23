@@ -18,3 +18,17 @@
 # use the password verysecret
 ./puser.sh myuser mydb verysecret
 ```
+
+## Test SSL
+
+Yet not working, we cannot fully validate the chain out of any reason.
+
+When forcing certificate validation
+
+```
+source .env
+docker run --rm --link postgres:$PG_DOMAIN -e PG_DOMAIN=$PG_DOMAIN -e PGSSLROOTCERT=/etc/ssl/certs/ca-certificates.crt -e PGREQUIRESSL=1 -e PGSSLMODE=verify-full -e PGPASSWORD=${POSTGRES_PASSWORD} -it --network docker-database-cluster_dbs debian:bullseye bash
+apt update
+apt install -y postgresql
+psql -h $PG_DOMAIN -U postgres
+```

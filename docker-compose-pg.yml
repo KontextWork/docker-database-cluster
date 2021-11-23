@@ -7,7 +7,7 @@ services:
     image: bitnami/postgresql:11-debian-10
     container_name: pg
     networks:
-      - pg
+      - dbs
     environment:
       POSTGRES_PASSWORD:
       POSTGRESQL_LOG_CONNECTIONS: 1
@@ -47,6 +47,3 @@ services:
 volumes:
   certbot_pg:
   pg_data:
-
-networks:
-  pg:

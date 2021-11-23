@@ -11,6 +11,8 @@ services:
       - mysql_data:/var/lib/mysql
       - ./data/mysql:/var/lib/mysql
       - ./data/mysql_certificates:/etc/mysql/certificates
+    networks:
+      - dbs
   certbot-mysql:
     restart: no
     image: certbot/dns-cloudflare
