@@ -21,8 +21,6 @@
 
 ## Test SSL
 
-Yet not working, we cannot fully validate the chain out of any reason.
-
 When forcing certificate validation
 
 ```

@@ -18,3 +18,15 @@
 # use the password verysecret
 ./muser.sh myuser mydb verysecret
 ```
+
+## Test SSL
+
+When forcing certificate validation
+
+```
+source .env
+docker run --rm --link mysql:$MYSQL_DOMAIN -e MYSQL_DOMAIN=$MYSQL_DOMAIN -e MYSQL_PWD=${MARIADB_ROOT_PASSWORD} -it --network docker-database-cluster_dbs debian:bullseye bash
+apt update
+apt install -y mariadb-client ca-certificates
+mysql -h $MYSQL_DOMAIN -u root --ssl --ssl-verify-server-cert
+```

@@ -3,19 +3,23 @@ version: '3'
 services:
   mysql:
     container_name: my
-    restart: always
-    image: mariadb:10.3
+    restart: 'always'
+    image: bitnami/mariadb:10.3
+    environment:
+      MARIADB_ROOT_PASSWORD:
     depends_on:
       - certbot-mysql
     volumes:
-      - mysql_data:/var/lib/mysql
       - ./data/mysql:/var/lib/mysql
-      - ./data/mysql_certificates:/etc/mysql/certificates
+      - ./data/mysql_certificates:/etc/mysql/certificates:ro
+      - ./mysql/conf/ssl.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
     networks:
       - dbs
   certbot-mysql:
-    restart: no
+    restart: 'no'
     image: certbot/dns-cloudflare
+    environment:
+      MYSQL_DOMAIN:
     volumes:
       - ./data/certbot_mysql:/etc/letsencrypt
       - ./data/mysql_certificates:/mysql_certificates
