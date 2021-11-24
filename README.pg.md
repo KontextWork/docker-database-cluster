@@ -10,13 +10,13 @@
 
 ```bash
 # create a user myuser and a DB mydb - grant myuser owner to mydb
-./puser.sh myuser mydb
+./pprov.sh myuser mydb
 ```
 
 ```bash
 # create a user myuser and a DB mydb - grant myuser owner to mydb
 # use the password verysecret
-./puser.sh myuser mydb verysecret
+./pprov.sh myuser mydb verysecret
 ```
 
 ## Test SSL
