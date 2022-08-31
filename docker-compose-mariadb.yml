@@ -17,6 +17,7 @@ services:
       - ./mariadb/conf/ssl.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
     networks:
       - dbs
+  # official certbot to retrieve our ssl certificate (stops after retrieval)
   certbot-mariadb:
     restart: 'no'
     image: certbot/dns-cloudflare
@@ -39,6 +40,7 @@ services:
       --agree-tos --no-eff-email
       -d ${MYSQL_DOMAIN}
       --deploy-hook /usr/local/bin/deploy_mariadb.sh
+  # handles re-triggering the certbot container using cron
   certbot-mariadb-cron:
     build: ./build/docker-certbot-cron/
     image: kontextwork/certbot-cron
