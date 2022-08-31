@@ -24,3 +24,7 @@ Set your `dns_cloudflare_api_token` to the DNS api token
 
 - For `postgres` see `README.pg.md` for how to manage it
 - For `mariadb` see `README.mariadb.md` for how to manage it
+
+# Credits
+
+The cron-cert-docker-image inspiration was taken from https://github.com/evgeniy-khist/letsencrypt-docker-compose - direct all the credits and cheers over there!

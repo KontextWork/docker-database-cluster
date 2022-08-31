@@ -41,6 +41,14 @@ services:
       --agree-tos --no-eff-email
       -d ${PG_DOMAIN}
       --deploy-hook /usr/local/bin/deploy_pg.sh
-volumes:
-  certbot_pg:
-  pg_data:
+  certbot-pg-cron:
+    build: ./build/docker-certbot-cron/
+    image: kontextwork/certbot-cron
+    networks:
+      - dbs
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      CERTBOT_SERVICE_NAME: ${CERTBOT_SERVICE_NAME:-certbot-mariadb-1}
+      COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME}"
+    restart: 'always'

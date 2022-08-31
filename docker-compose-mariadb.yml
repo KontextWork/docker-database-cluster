@@ -1,31 +1,33 @@
 version: '3'
 
 services:
-  mysql:
-    container_name: my
+  mariadb:
     restart: 'always'
-    image: bitnami/mariadb:10.9
+    # @see https://hub.docker.com/r/bitnami/mariadb
+    image: bitnami/mariadb:10.8
     ports:
       - 3306:3306
     environment:
       MARIADB_ROOT_PASSWORD:
     depends_on:
-      - certbot-mysql
+      - certbot-mariadb
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./data/mysql_certificates:/etc/mysql/certificates:ro
-      - ./mysql/conf/ssl.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
+      - ./mariadb/conf/ssl.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
     networks:
       - dbs
-  certbot-mysql:
+  certbot-mariadb:
     restart: 'no'
     image: certbot/dns-cloudflare
+    networks:
+      - dbs
     environment:
       MYSQL_DOMAIN:
     volumes:
       - ./data/certbot_mysql:/etc/letsencrypt
       - ./data/mysql_certificates:/mysql_certificates
-      - ./mysql/certbot/deploy_mysql.sh:/usr/local/bin/deploy_mysql.sh
+      - ./mariadb/certbot/deploy_mariadb.sh:/usr/local/bin/deploy_mariadb.sh
       - ./.cloudflare.ini:/root/cloudflare.ini
     command: >-
       certonly --dns-cloudflare
@@ -36,7 +38,15 @@ services:
       --email ssl@kontextwork.de
       --agree-tos --no-eff-email
       -d ${MYSQL_DOMAIN}
-      --deploy-hook /usr/local/bin/deploy_mysql.sh
-volumes:
-  certbot_mysql:
-  mysql_data:
+      --deploy-hook /usr/local/bin/deploy_mariadb.sh
+  certbot-mariadb-cron:
+    build: ./build/docker-certbot-cron/
+    image: kontextwork/certbot-cron
+    networks:
+      - dbs
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      CERTBOT_SERVICE_NAME: ${CERTBOT_SERVICE_NAME:-certbot-mariadb-1}
+      COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME}"
+    restart: 'always'
