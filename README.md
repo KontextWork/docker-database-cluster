@@ -1,6 +1,11 @@
 # WAT
 
-Our postgres and mysql cluster database
+A way of hosting postgres and mariadb for production. It includes
+
+- LE based certificate management for official SSL support including renewal and database configuration
+- periodic backups
+- modular setup (you can pick the pieces you like via .env)
+- management tools to provision / deprovision user
 
 ## Usage / Setup
 
