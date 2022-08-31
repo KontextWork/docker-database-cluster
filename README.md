@@ -6,6 +6,7 @@ A way of hosting postgres and mariadb for production. It includes
 - periodic backups
 - modular setup (you can pick the pieces you like via .env)
 - management tools to provision / deprovision user
+- only official database images / certbot images
 
 ## Usage / Setup
 
