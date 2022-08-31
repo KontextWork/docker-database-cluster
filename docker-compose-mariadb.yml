@@ -4,7 +4,7 @@ services:
   mysql:
     container_name: my
     restart: 'always'
-    image: bitnami/mariadb:10.3
+    image: bitnami/mariadb:10.9
     ports:
       - 3306:3306
     environment:

@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  mariadb-backup:
+    image: fradelg/mysql-cron-backup
+    depends_on:
+      - mariadb
+    volumes:
+      - ${VOLUME_PATH}/backup:/backup
+    environment:
+      - MYSQL_HOST=${MYSQL_DOMAIN}
+      - MYSQL_USER=root
+      - MYSQL_PASS=${MARIADB_ROOT_PASSWORD}
+      - MAX_BACKUPS=7
+      - INIT_BACKUP=1
+      - CRON_TIME=0 0 * * *
+    restart: unless-stopped
