@@ -4,7 +4,7 @@ set -e
 USER=$1
 DATABASE=$2
 PASSWORD=$3
-FORCESSL=${$4:-yes}
+FORCESSL=${4:-yes}
 
 if [ -z "$USER" ]
 then
@@ -28,7 +28,7 @@ source .env
 NETWORK=docker-database-cluster_dbs
 CMD="docker run --rm --link mariadb:$MYSQL_DOMAIN -e MYSQL_PWD="${MARIADB_ROOT_PASSWORD}" -it --network $NETWORK bitnami/mariadb:10.8 mysql -h $MYSQL_DOMAIN -u root --ssl --ssl-verify-server-cert -e"
 
-if [ "${FORCESSL}" = "yes" ];
+if [ "${FORCESSL}" = "yes" ]; then
   echo "forcing ssl for user $USER"
   REQUIRESSL=" REQUIRE SSL"
 else
@@ -37,11 +37,12 @@ else
 fi
 
 
-$CMD "CREATE USER ${USER} IDENTIFIED BY '${PASSWORD}'${REQUIRESSL}"
-$CMD "CREATE DATABASE ${DATABASE}"
+$CMD "CREATE USER IF NOT EXISTS ${USER} IDENTIFIED BY '${PASSWORD}'${REQUIRESSL}"
+$CMD "CREATE DATABASE IF NOT EXISTS ${DATABASE}"
 $CMD "GRANT ALL PRIVILEGES ON ${DATABASE} . * TO ${USER}@'%'"
 $CMD "FLUSH PRIVILEGES;"
 
 echo "- Created user $USER"
 echo "- Created database $DATABASE"
 echo "- Your Password is: $PASSWORD"
+echo "- Enforce sSL: $FORCESSL"

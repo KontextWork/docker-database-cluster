@@ -14,6 +14,7 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASS=${MARIADB_ROOT_PASSWORD}
       - MAX_BACKUPS=7
-      - INIT_BACKUP=1
+      - INIT_BACKUP=0
+      - INIT_RESTORE_LATEST=0
       - CRON_TIME=0 0 * * *
     restart: unless-stopped
