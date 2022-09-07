@@ -49,6 +49,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      CERTBOT_SERVICE_NAME: ${CERTBOT_SERVICE_NAME:-certbot-mariadb-1}
+      CERTBOT_SERVICE_NAME: ${CERTBOT_SERVICE_NAME:-certbot-mariadb-cron_1}
       COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME}"
     restart: 'always'
