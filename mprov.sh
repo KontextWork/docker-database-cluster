@@ -6,6 +6,8 @@ DATABASE=$2
 PASSWORD=$3
 FORCESSL=${4:-yes}
 
+
+MARIADB_TAG=11.5
 if [ -z "$USER" ]
 then
       echo "Error: Please pass the desired user as first paramter"
@@ -26,7 +28,7 @@ fi
 
 source .env
 NETWORK=docker-database-cluster_dbs
-CMD="docker run --rm --link mariadb:$MYSQL_DOMAIN -e MYSQL_PWD="${MARIADB_ROOT_PASSWORD}" -it --network $NETWORK bitnami/mariadb:10.8 mysql -h $MYSQL_DOMAIN -u root --ssl --ssl-verify-server-cert -e"
+CMD="docker run --rm --link mariadb:$MYSQL_DOMAIN -e MYSQL_PWD="${MARIADB_ROOT_PASSWORD}" -it --network $NETWORK bitnami/mariadb:$MARIADB_TAG mysql -h $MYSQL_DOMAIN -u root --ssl --ssl-verify-server-cert -e"
 
 if [ "${FORCESSL}" = "yes" ]; then
   echo "forcing ssl for user $USER"
