@@ -3,7 +3,6 @@
 set -e
 USER=$1
 DATABASE=$2
-PASSWORD=$3
 
 MARIADB_TAG=11.5
 if [ -z "$USER" ]
@@ -25,7 +24,7 @@ source .env
 NETWORK=docker-database-cluster_dbs
 CMD="docker run --rm --link mariadb:$MYSQL_DOMAIN -e MYSQL_PWD="${MARIADB_ROOT_PASSWORD}" -it --network $NETWORK bitnami/mariadb:$MARIADB_TAG mariadb -h $MYSQL_DOMAIN -u root --ssl --ssl-verify-server-cert -e"
 
-$CMD "\set AUTOCOMMIT on\nDROP DATABASE ${DATABASE};DROP USER ${USER}"
+$CMD "DROP DATABASE ${DATABASE};DROP USER ${USER};"
 
 echo "- Removed user $USER"
 echo "- Removed database $DATABASE"
