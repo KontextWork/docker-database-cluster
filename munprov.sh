@@ -23,7 +23,7 @@ read -p "Will drop database $DATABASE and remove all data. Also dropping user $U
 
 source .env
 NETWORK=docker-database-cluster_dbs
-CMD="docker run --rm --link mariadb:$MYSQL_DOMAIN -e MYSQL_PWD="${MARIADB_ROOT_PASSWORD}" -it --network $NETWORK bitnami/mariadb:$MARIADB_TAG mysql -h $MYSQL_DOMAIN -u root --ssl --ssl-verify-server-cert -e"
+CMD="docker run --rm --link mariadb:$MYSQL_DOMAIN -e MYSQL_PWD="${MARIADB_ROOT_PASSWORD}" -it --network $NETWORK bitnami/mariadb:$MARIADB_TAG mariadb -h $MYSQL_DOMAIN -u root --ssl --ssl-verify-server-cert -e"
 
 $CMD "\set AUTOCOMMIT on\nDROP DATABASE ${DATABASE};DROP USER ${USER}"
 
