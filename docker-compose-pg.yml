@@ -1,7 +1,6 @@
 services:
   postgres:
     restart: 'always'
-    #image: postgres:11-bullseye
     image: bitnami/postgresql:16-debian-12
     container_name: pg
     networks:
