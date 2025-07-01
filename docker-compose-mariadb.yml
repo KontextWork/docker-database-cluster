@@ -2,7 +2,7 @@ services:
   mariadb:
     restart: 'always'
     # @see https://hub.docker.com/r/bitnami/mariadb
-    image: bitnami/mariadb:11.7
+    image: bitnami/mariadb:11.8
     ports:
       - 3306:3306
     environment:
